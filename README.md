@@ -14,3 +14,5 @@ img = cv2.resize(img, (640/2, 480/2))
 mask = backprojection_saliency(img)
 segmentation = img*mask[:,:,np.newaxis]
 ```
+
+[For more details refer here.](http://jacobcv.blogspot.com/2015/04/simple-image-saliency-detection-from.html)
