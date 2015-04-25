@@ -14,21 +14,15 @@ def backproject(source, target, levels = 2, scale = 1):
 
 def saliency_by_backprojection(img):
 	cv2.pyrMeanShiftFiltering(img, 2, 10, img, 4)
-	cv2.imwrite(name + "_abstraction.jpg", img)
 
 	backproj = np.uint8(backproject(img, img, levels = 2))
 	cv2.normalize(backproj,backproj,0,255,cv2.NORM_MINMAX)
-
 	saliencies = [backproj, backproj, backproj]
 	saliency = cv2.merge(saliencies)
-
-	cv2.imwrite(name + "_backprojection.jpg", saliency)
 
 	cv2.pyrMeanShiftFiltering(saliency, 20, 200, saliency, 2)
 	saliency = cv2.cvtColor(saliency, cv2.COLOR_BGR2GRAY)
 	cv2.equalizeHist(saliency, saliency)
-
-	cv2.imwrite(name + "_backprojection_processed.jpg", 255 -  saliency)
 
 	return 255-saliency
 
@@ -55,7 +49,6 @@ def refine_saliency_with_grabcut(img, saliency):
 
 def backprojection_saliency(img):
 	saliency = saliency_map(img)
-	cv2.imwrite(name + "_afterthreshold.jpg", saliency)
 	mask = refine_saliency_with_grabcut(img, saliency)
 	return mask
 
@@ -67,11 +60,6 @@ if __name__ == "__main__":
 	mask = backprojection_saliency(img)
 	segmentation = img*mask[:,:,np.newaxis]
 
-	cv2.imwrite(sys.argv[1].strip(".jpg") + "_original.jpg", img)
-
 	cv2.imshow("original", img)
 	cv2.imshow("segmentation", segmentation)
-	cv2.imwrite(sys.argv[1].strip(".jpg") + "_result.jpg", segmentation)
-	cv2.imwrite(sys.argv[1].strip(".jpg") + "_mask.jpg", 255*mask)
-
 	cv2.waitKey(-1)
