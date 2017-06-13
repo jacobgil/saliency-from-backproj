@@ -27,7 +27,7 @@ def saliency_by_backprojection(img):
 	return 255-saliency
 
 def saliency_map(img):
-	saliency_hsv = saliency_by_backprojection(img * 1, backproject)
+	saliency_hsv = saliency_by_backprojection(img * 1)
 	saliency = saliency_hsv
 	(T, saliency) = cv2.threshold(saliency, 200, 255, cv2.THRESH_BINARY)
 	return saliency
