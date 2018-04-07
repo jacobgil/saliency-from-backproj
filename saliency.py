@@ -33,7 +33,7 @@ def saliency_map(img):
 	return saliency
 
 def largest_contours_rect(saliency):
-	contours, hierarchy = cv2.findContours(saliency * 1,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+	_, contours, hierarchy = cv2.findContours(saliency * 1,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 	contours = sorted(contours, key = cv2.contourArea)
 	return cv2.boundingRect(contours[-1])
 
